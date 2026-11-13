@@ -10,7 +10,9 @@ class Driver;
 namespace Sound {
 class KartSound;
 }
-
+namespace System {
+    class PadProxy;
+}
 namespace Kart {
 
 class KartAction;
@@ -59,6 +61,7 @@ public:
     Sound::KartSound *getKartSound();
     const VehiclePhysics *getVehiclePhysics() const;
     VehiclePhysics *getVehiclePhysics();
+    System::PadProxy *getPadProxy();
     bool isCPU() const;
     bool isGhost() const;
     KartMove *getKartMove();

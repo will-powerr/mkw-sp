@@ -23,7 +23,12 @@ typedef struct PADStatus {
     u16 buttons;
     s8 stickX;
     s8 stickY;
-    u8 _04[0xa - 0x4];
+    s8 substickX;
+    s8 substickY;
+    u8 triggerL;
+    u8 triggerR;
+    u8 analogA;
+    u8 analogB;
     s8 error;
 } PADStatus;
 static_assert(sizeof(PADStatus) == 0xc);
