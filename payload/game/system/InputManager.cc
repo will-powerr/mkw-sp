@@ -65,6 +65,26 @@ UserPad::UserPad() = default;
 
 UserPad::~UserPad() = default;
 
+static Vec2<s16> s_rawRightStick{};
+
+Vec2<s16> WiiPad::RawRightStick() {
+    return s_rawRightStick;
+}
+
+void WiiPad::processClassic(void *r4, RaceInputState &raceInputState, UIInputState &uiInputState) {
+    REPLACED(processClassic)(r4, raceInputState, uiInputState);
+
+    const u8 *raw = reinterpret_cast<const u8 *>(r4);
+    s_rawRightStick = {*reinterpret_cast<const s16 *>(raw + 0x30),
+            *reinterpret_cast<const s16 *>(raw + 0x32)};
+
+    processSimplified(raceInputState, raceInputState.rawButtons & KPAD_CL_TRIGGER_ZL);
+
+    if (auto *saveStateManager = SP::SaveStateManager::Instance()) {
+        saveStateManager->processInput(raceInputState.rawButtons & KPAD_CL_BUTTON_MINUS);
+    }
+}
+
 void WiiPad::process(RaceInputState &raceInputState, UIInputState &uiInputState) {
     REPLACED(process)(raceInputState, uiInputState);
 
@@ -73,15 +93,6 @@ void WiiPad::process(RaceInputState &raceInputState, UIInputState &uiInputState)
     }
 }
 
-void WiiPad::processClassic(void *r4, RaceInputState &raceInputState, UIInputState &uiInputState) {
-    REPLACED(processClassic)(r4, raceInputState, uiInputState);
-
-    processSimplified(raceInputState, raceInputState.rawButtons & KPAD_CL_TRIGGER_ZL);
-
-    if (auto *saveStateManager = SP::SaveStateManager::Instance()) {
-        saveStateManager->processInput(raceInputState.rawButtons & KPAD_CL_BUTTON_MINUS);
-    }
-}
 
 void GCPad::process(RaceInputState &raceInputState, UIInputState &uiInputState) {
     REPLACED(process)(raceInputState, uiInputState);

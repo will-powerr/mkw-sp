@@ -710,6 +710,7 @@
 0x805903cc _ZN4Kart15KartObjectProxy17getVehiclePhysicsEv
 0x805903e0 _ZNK4Kart15KartObjectProxy17getVehiclePhysicsEv
 0x805903f4 KartObjectProxy_getPadProxy
+0x805903f4 _ZN4Kart15KartObjectProxy11getPadProxyEv
 0x80590664 _ZNK4Kart15KartObjectProxy5isCPUEv
 0x80590678 KartObjectProxy_isGhost
 0x80590678 _ZNK4Kart15KartObjectProxy7isGhostEv
@@ -734,6 +735,7 @@
 0x805a1d10 Camera_805a1d10
 0x805a2034 Camera_805a2034
 0x805a21d0 Camera_805a21d0
+0x805a34b0 Camera_calcCamera
 0x805a8468 CameraManager_ct
 0x805a8fbc CameraManager_805a8fbc
 0x805a8fbc _ZNK8Graphics13CameraManager7isReadyEv

@@ -2,6 +2,7 @@
 
 extern "C" {
 #include <revolution/pad.h>
+#include <revolution/kpad.h>
 }
 
 #include "game/util/Registry.hh"
@@ -131,6 +132,9 @@ public:
     WiiPad();
     ~WiiPad() override;
 
+    static Vec2<s16> RawRightStick();   // new
+    // ...rest unchanged
+
     void REPLACED(process)(RaceInputState &raceInputState, UIInputState &uiInputState);
     REPLACE void process(RaceInputState &raceInputState, UIInputState &uiInputState) override;
 
@@ -141,7 +145,9 @@ protected:
             UIInputState &uiInputState);
 
 private:
-    u8 _920[0x920 - 0x90];
+    KPADStatus m_kpadStatuses[0x10];  // 0x90
+    u8 m_kpadStatusCount;             // 0x8d0
+    u8 _8d1[0x920 - 0x8d1];
 };
 static_assert(sizeof(WiiPad) == 0x920);
 
@@ -149,13 +155,17 @@ class GCPad : public Pad {
 public:
     GCPad();
     ~GCPad() override;
+    const Vec2<f32> &substick() const { return m_substick; }
 
 protected:
     void REPLACED(process)(RaceInputState &raceInputState, UIInputState &uiInputState);
     REPLACE void process(RaceInputState &raceInputState, UIInputState &uiInputState) override;
 
 private:
-    u8 _90[0xb0 - 0x90];
+    PADStatus m_padStatus;    // 0x90
+    s32 m_chan;               // 0x9c
+    Vec2<f32> m_substick;     // 0xa0
+    u8 _a8[0xb0 - 0xa8];
 };
 static_assert(sizeof(GCPad) == 0xb0);
 
